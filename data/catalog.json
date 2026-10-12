@@ -1,0 +1,179 @@
+{
+  "_note": "Fictional sample sellers for the demo. Names, members, prices and stock are illustrative, not real FPO data. Prices are USD per kg, FOB India. floor_price is private to each seller agent.",
+  "products": [
+    {
+      "key": "pearl_millet_flour",
+      "name": "Pearl millet (bajra) flour",
+      "category": "millets",
+      "synonyms": ["pearl millet flour", "pearl millet", "bajra flour", "bajra atta", "bajra", "millet flour", "millet"],
+      "local": {"hi": "बाजरे का आटा", "mr": "बाजरीचे पीठ", "ta": "கம்பு மாவு", "ml": "കമ്പ് പൊടി", "en": "Pearl millet flour"}
+    },
+    {
+      "key": "finger_millet_flour",
+      "name": "Finger millet (ragi) flour",
+      "category": "millets",
+      "synonyms": ["finger millet flour", "finger millet", "ragi flour", "ragi", "nachni"],
+      "local": {"hi": "रागी का आटा", "mr": "नाचणीचे पीठ", "ta": "கேழ்வரகு மாவு", "ml": "റാഗി പൊടി", "en": "Finger millet flour"}
+    },
+    {
+      "key": "turmeric_powder",
+      "name": "Turmeric powder",
+      "category": "spices",
+      "synonyms": ["turmeric powder", "turmeric", "haldi"],
+      "local": {"hi": "हल्दी पाउडर", "mr": "हळद पावडर", "ta": "மஞ்சள் தூள்", "ml": "മഞ്ഞൾപ്പൊടി", "en": "Turmeric powder"}
+    },
+    {
+      "key": "green_cardamom",
+      "name": "Green cardamom (8 mm)",
+      "category": "spices",
+      "synonyms": ["green cardamom", "cardamom", "elaichi", "elaichi pods"],
+      "local": {"hi": "हरी इलायची", "mr": "हिरवी वेलची", "ta": "பச்சை ஏலக்காய்", "ml": "പച്ച ഏലക്കായ", "en": "Green cardamom"}
+    },
+    {
+      "key": "jaggery_powder",
+      "name": "Jaggery powder",
+      "category": "sweeteners",
+      "synonyms": ["jaggery powder", "jaggery", "gur", "gud"],
+      "local": {"hi": "गुड़ पाउडर", "mr": "गूळ पावडर", "ta": "வெல்லத் தூள்", "ml": "ശർക്കരപ്പൊടി", "en": "Jaggery powder"}
+    }
+  ],
+  "sellers": [
+    {
+      "id": "MMF",
+      "name": "Marwar Millet Farmer Producer Co.",
+      "region": "Jodhpur",
+      "state": "Rajasthan",
+      "language": "hi",
+      "manager": "Sunita Choudhary",
+      "members": 1240,
+      "certs": ["organic"],
+      "export_ready": true,
+      "lead_time_days": 6,
+      "min_advance_pct": "0.25",
+      "style": "flexible",
+      "paypal_email": "mmf-fpo@sauda.example",
+      "listings": [
+        {"product": "pearl_millet_flour", "list_price": "2.40", "floor_price": "1.95", "stock_kg": 400, "min_order_kg": 25,
+         "tiers": [{"min_kg": 100, "discount_pct": "0.05"}]},
+        {"product": "finger_millet_flour", "list_price": "2.90", "floor_price": "2.40", "stock_kg": 150, "min_order_kg": 25,
+         "tiers": [{"min_kg": 100, "discount_pct": "0.04"}]}
+      ]
+    },
+    {
+      "id": "SHK",
+      "name": "Shekhawati Organic Producer Co.",
+      "region": "Jhunjhunu",
+      "state": "Rajasthan",
+      "language": "hi",
+      "manager": "Ramesh Saini",
+      "members": 860,
+      "certs": ["organic"],
+      "export_ready": true,
+      "lead_time_days": 8,
+      "min_advance_pct": "0.30",
+      "style": "firm",
+      "paypal_email": "shk-fpo@sauda.example",
+      "listings": [
+        {"product": "pearl_millet_flour", "list_price": "2.25", "floor_price": "2.02", "stock_kg": 120, "min_order_kg": 20,
+         "tiers": []}
+      ]
+    },
+    {
+      "id": "ETG",
+      "name": "Erode Turmeric Growers Producer Co.",
+      "region": "Erode",
+      "state": "Tamil Nadu",
+      "language": "ta",
+      "manager": "K. Selvi",
+      "members": 2100,
+      "certs": ["organic", "gi_tag"],
+      "export_ready": true,
+      "lead_time_days": 7,
+      "min_advance_pct": "0.30",
+      "style": "flexible",
+      "paypal_email": "etg-fpo@sauda.example",
+      "listings": [
+        {"product": "turmeric_powder", "list_price": "5.20", "floor_price": "4.30", "stock_kg": 300, "min_order_kg": 20,
+         "tiers": [{"min_kg": 50, "discount_pct": "0.03"}]}
+      ]
+    },
+    {
+      "id": "SNG",
+      "name": "Sangli Haldi Producer Co.",
+      "region": "Sangli",
+      "state": "Maharashtra",
+      "language": "mr",
+      "manager": "Prakash Patil",
+      "members": 940,
+      "certs": [],
+      "export_ready": true,
+      "lead_time_days": 5,
+      "min_advance_pct": "0.20",
+      "style": "flexible",
+      "paypal_email": "sng-fpo@sauda.example",
+      "listings": [
+        {"product": "turmeric_powder", "list_price": "4.10", "floor_price": "3.60", "stock_kg": 500, "min_order_kg": 25,
+         "tiers": [{"min_kg": 100, "discount_pct": "0.04"}]},
+        {"product": "jaggery_powder", "list_price": "1.90", "floor_price": "1.55", "stock_kg": 800, "min_order_kg": 50,
+         "tiers": []}
+      ]
+    },
+    {
+      "id": "IDK",
+      "name": "Idukki Cardamom Growers Producer Co.",
+      "region": "Idukki",
+      "state": "Kerala",
+      "language": "ml",
+      "manager": "Mary Joseph",
+      "members": 1560,
+      "certs": ["organic", "gi_tag"],
+      "export_ready": true,
+      "lead_time_days": 9,
+      "min_advance_pct": "0.30",
+      "style": "flexible",
+      "paypal_email": "idk-fpo@sauda.example",
+      "listings": [
+        {"product": "green_cardamom", "list_price": "31.00", "floor_price": "26.50", "stock_kg": 60, "min_order_kg": 5,
+         "tiers": [{"min_kg": 20, "discount_pct": "0.02"}]}
+      ]
+    },
+    {
+      "id": "BOD",
+      "name": "Bodi Hills Spice Producer Co.",
+      "region": "Bodinayakanur",
+      "state": "Tamil Nadu",
+      "language": "ta",
+      "manager": "R. Murugan",
+      "members": 720,
+      "certs": ["organic"],
+      "export_ready": true,
+      "lead_time_days": 6,
+      "min_advance_pct": "0.50",
+      "style": "firm",
+      "paypal_email": "bod-fpo@sauda.example",
+      "listings": [
+        {"product": "green_cardamom", "list_price": "29.50", "floor_price": "27.80", "stock_kg": 40, "min_order_kg": 5,
+         "tiers": []}
+      ]
+    },
+    {
+      "id": "KJF",
+      "name": "Kolhapur Jaggery Farmers Producer Co.",
+      "region": "Kolhapur",
+      "state": "Maharashtra",
+      "language": "mr",
+      "manager": "Sanjay Jadhav",
+      "members": 1310,
+      "certs": ["organic"],
+      "export_ready": true,
+      "lead_time_days": 7,
+      "min_advance_pct": "0.25",
+      "style": "flexible",
+      "paypal_email": "kjf-fpo@sauda.example",
+      "listings": [
+        {"product": "jaggery_powder", "list_price": "1.80", "floor_price": "1.45", "stock_kg": 500, "min_order_kg": 50,
+         "tiers": [{"min_kg": 200, "discount_pct": "0.05"}]}
+      ]
+    }
+  ]
+}

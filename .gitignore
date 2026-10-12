@@ -1,0 +1,33 @@
+# secrets and local state
+.env
+.env.*
+!.env.example
+var/
+*.db
+*.db-wal
+*.db-shm
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# local recordings and scratch
+recordings/
+scratch/
+
+# local tool config
+.claude/
