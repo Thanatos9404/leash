@@ -1,7 +1,7 @@
 [project]
-name = "sauda"
+name = "leash"
 version = "1.0.0"
-description = "Agent-to-agent trade desk for farmer producer organisations, settled on PayPal (sandbox)."
+description = "Enforceable spending mandates for AI shopping agents, settled on PayPal (sandbox)."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Yashvardhan Thanvi", email = "yashvt9404@gmail.com" }]
@@ -13,6 +13,7 @@ dependencies = [
   "pydantic>=2.7",
   "openai>=1.40",
   "python-dotenv>=1.0",
+  "cryptography>=42",
 ]
 
 [project.optional-dependencies]
@@ -23,4 +24,4 @@ testpaths = ["tests"]
 addopts = "-q"
 
 [tool.setuptools]
-packages = ["sauda", "sauda.paypal"]
+packages = ["leash", "leash.paypal"]

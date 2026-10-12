@@ -1,4 +1,4 @@
-"""Shared fixtures. Every test runs offline: fixture PayPal, no model key, a temporary database."""
+"""Shared fixtures. Every test runs offline: fixture PayPal, no model key, a temporary data directory."""
 
 from __future__ import annotations
 
@@ -10,31 +10,24 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from sauda.app import build_engine  # noqa: E402
-from sauda.config import Settings  # noqa: E402
-from sauda.llm import LLM  # noqa: E402
+from leash.app import build_leash  # noqa: E402
+from leash.compiler import SAMPLES  # noqa: E402
+from leash.config import Settings  # noqa: E402
+from leash.llm import LLM  # noqa: E402
 
 
 def make_settings(tmp_path: Path, **overrides) -> Settings:
     base = dict(
-        paypal_env="sandbox",
-        paypal_client_id="",
-        paypal_client_secret="",
-        paypal_webhook_id="",
-        paypal_mode_pref="fixture",
-        nebius_api_key="",
-        llm_disabled=True,
-        public_base_url="http://testserver",
-        data_dir=tmp_path,
-        payments_frozen=False,
-        platform_fee_pct="0.02",
-        auto_release_daily_cap="600",
-        buyer_email="anita.shah@sauda.example",
-        seller_emails_raw="",
-        secret="test-secret-key",
+        paypal_env="sandbox", paypal_client_id="", paypal_client_secret="", paypal_webhook_id="", paypal_mode_pref="fixture",
+        nebius_api_key="", llm_disabled=True, channel3_api_key="", public_base_url="http://testserver", data_dir=tmp_path,
+        payments_frozen=False, buyer_email="", owner_name="Test Owner", allow_reset=True,
     )
     base.update(overrides)
     return Settings(**base)
+
+
+def run(coro):
+    return asyncio.run(coro)
 
 
 @pytest.fixture
@@ -43,18 +36,24 @@ def settings(tmp_path: Path) -> Settings:
 
 
 @pytest.fixture
-def engine(settings: Settings):
-    eng = build_engine(settings)
-    yield eng
-    eng.store.close()
+def leash(settings: Settings):
+    l = build_leash(settings)
+    yield l
+    l.store.close()
 
 
-def run(coro):
-    return asyncio.run(coro)
+async def active_mandate(l, sample: str = "coffee"):
+    """Compile, sign (custodial demo key), fund and approve the allowance in fixture mode."""
+    m = await l.compile(SAMPLES[sample])
+    m = await l.sign(m.id)
+    m = await l.fund(m.id)
+    l.paypal.approve_order(m.envelope.order_id)
+    await l.on_paypal_return("allowance", m.id)
+    return l.mandate(m.id)
 
 
 class ScriptedLLM(LLM):
-    """An LLM stand-in that returns scripted JSON per purpose and records prompts."""
+    """Returns scripted JSON per purpose and records prompts."""
 
     def __init__(self, settings: Settings, replies: dict) -> None:
         super().__init__(settings)
