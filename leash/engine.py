@@ -507,6 +507,33 @@ class Leash:
         return {"valid": valid, "checks": checks, "jti": payload.get("jti"), "mandate": payload.get("mandate", {}).get("id"),
                 "amount": payload.get("cart", {}).get("total"), "merchant_id": payload.get("cart", {}).get("merchant_id")}
 
+    def inspect_receipt(self, token: str) -> dict:
+        """Read-only verification of any receipt (for people and auditors; does not consume anything)."""
+        checks: list[dict] = []
+        try:
+            header, payload = jws_verify(token.strip(), self.receipt_key.public, RECEIPT_TYP)
+            checks.append({"check": "signature", "ok": True, "detail": f"Valid Ed25519 signature by {header.get('kid')}"})
+        except SignatureError as e:
+            return {"valid": False, "checks": [{"check": "signature", "ok": False, "detail": str(e)}], "payload": None}
+        m = self.store.mandate(payload.get("mandate", {}).get("id", ""))
+        if m:
+            same = payload["mandate"].get("token_hash") == sha256_hex((m.token or "").encode())
+            checks.append({"check": "mandate", "ok": same, "detail": "Bound to the mandate you signed" if same else "Mandate token differs"})
+        else:
+            checks.append({"check": "mandate", "ok": False, "detail": "Mandate not found on this server"})
+        pid = payload.get("jti", "").split(":")[0]
+        p = self.store.purchase(pid)
+        if p and payload.get("typ", "").endswith("settlement"):
+            ok = p.payment.get("capture_id") == payload.get("payment", {}).get("capture_id") and p.cart.cart_hash == payload.get("cart", {}).get("hash")
+            checks.append({"check": "purchase", "ok": ok, "detail": f"Matches PayPal capture {p.payment.get('capture_id')}" if ok else "Does not match the recorded purchase"})
+        prev = payload.get("prev")
+        if prev:
+            linked = any(x.receipt_hash == prev for x in self.store.purchases(payload["mandate"]["id"]))
+            checks.append({"check": "chain", "ok": linked, "detail": "Links to the previous receipt in this mandate's chain" if linked else "Previous receipt not found"})
+        else:
+            checks.append({"check": "chain", "ok": True, "detail": "First receipt in this mandate's chain"})
+        return {"valid": all(c["ok"] for c in checks), "checks": checks, "payload": payload, "hash": receipt_hash(token.strip())}
+
     async def _settle(self, m: Mandate, p: Purchase, mode: str = "allowance") -> Purchase:
         """Issue the authorization receipt, have the merchant verify it, then capture. Caller holds the mandate lock."""
         p.payment.update({"mode": mode})
@@ -581,7 +608,9 @@ class Leash:
                 raise LeashError("Only blocked purchases can be approved as exceptions.")
             if self.frozen:
                 raise LeashError("Payments are frozen (kill switch).")
-            fatal = [c.rule for c in p.decision.failures if c.rule in ("merchant_verified", "cart_integrity", "price_check", "replay", "agent_authorized", "mandate_signature", "kill_switch")]
+            fatal = [c.rule for c in p.decision.failures if c.rule in ("merchant_verified", "cart_integrity", "price_check", "replay", "agent_authorized", "mandate_signature", "kill_switch", "mandate_active")]
+            if m.status != "active":
+                fatal.append("mandate_active")
             if fatal:
                 raise LeashError("This cart cannot be approved: " + ", ".join(fatal).replace("_", " ") + " failed. Those protect you even from yourself.")
             base = self.settings.public_base_url

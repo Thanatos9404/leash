@@ -1,0 +1,240 @@
+/*
+ * Hackathon UI kit — design tokens.
+ * Two themes: "daylight" (obliqq-style sky + warm paper) and "carbon"
+ * (llmslim-style warm black). Each project overrides --accent and the sky
+ * stops in its own :root, nothing else.
+ */
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Open Runde", "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: "Fragment Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-pixel: "Silkscreen", "Fragment Mono", ui-monospace, monospace;
+
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-hair: var(--hair);
+  --color-glass: var(--glass);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-pos: var(--pos);
+  --color-neg: var(--neg);
+
+  --radius-card: 20px;
+  --radius-tile: 14px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root,
+[data-theme="daylight"] {
+  --paper: #f9f8f8;
+  --paper-2: #f4f1ee;
+  --paper-3: #ede7e1;
+  --surface: #ffffff;
+  --ink: #1a1615;
+  --ink-2: #453f3d;
+  --muted: #757170;
+  --hair: rgba(26, 22, 21, 0.08);
+  --hair-strong: rgba(26, 22, 21, 0.14);
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --shadow-soft: 0 1px 1px rgba(26, 22, 21, 0.04), 0 8px 24px -8px rgba(26, 22, 21, 0.12);
+  --shadow-lift: 0 2px 4px rgba(26, 22, 21, 0.05), 0 24px 60px -18px rgba(26, 22, 21, 0.28);
+
+  /* Sky: morning blue into warm peach. Projects may retint both stops. */
+  --sky-top: #9cc1e7;
+  --sky-mid: #c9dbee;
+  --sky-bottom: #eddfd0;
+
+  --accent: #c9502e;
+  --accent-soft: color-mix(in oklab, var(--accent) 12%, white);
+  --accent-ink: #ffffff;
+  /* Darkened from obliqq's #00A82D / #D9342B so badge text passes WCAG AA on tinted chips. */
+  --pos: #0a7a2f;
+  --neg: #c0261e;
+
+  color-scheme: light;
+}
+
+[data-theme="carbon"] {
+  --paper: #0b0b0a;
+  --paper-2: #111110;
+  --paper-3: #191917;
+  --surface: #141413;
+  --ink: #ededea;
+  --ink-2: #c9c8c3;
+  --muted: #8f8e89;
+  --hair: rgba(237, 237, 234, 0.08);
+  --hair-strong: rgba(237, 237, 234, 0.16);
+  --glass: rgba(237, 237, 234, 0.05);
+  --glass-border: rgba(237, 237, 234, 0.1);
+  --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+
+  --sky-top: #16120f;
+  --sky-mid: #0f0d0c;
+  --sky-bottom: #0b0b0a;
+
+  --accent: #ff7a3d;
+  --accent-soft: color-mix(in oklab, var(--accent) 16%, #0b0b0a);
+  --accent-ink: #0b0b0a;
+  --pos: #3ccf6e;
+  --neg: #ff5a4f;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--paper);
+    min-height: 100dvh;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 26%, transparent);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 10px;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 32px;
+    }
+  }
+
+  .section-y {
+    padding-block: 88px;
+  }
+  @media (min-width: 1024px) {
+    .section-y {
+      padding-block: 140px;
+    }
+  }
+
+  /* Type scale */
+  .t-hero {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(44px, 6.4vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .t-h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(32px, 4.2vw, 54px);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .t-h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .t-lead {
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+  .t-body {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .t-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .t-serif {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .t-num {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+  }
+
+  /* Surfaces */
+  .surface {
+    background: var(--surface);
+    border: 1px solid var(--hair);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+  }
+  .paper-card {
+    background: var(--paper-2);
+    border: 1px solid var(--hair);
+    border-radius: var(--radius-card);
+  }
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+  .sky {
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 46%, var(--sky-bottom) 100%);
+  }
+
+  /* Edge fade for marquees and horizontal scrollers */
+  .fade-x {
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

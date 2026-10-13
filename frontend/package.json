@@ -1,0 +1,33 @@
+{
+  "name": "leash-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "5.2.6",
+    "@fontsource/fragment-mono": "5.2.6",
+    "@fontsource/instrument-serif": "5.2.6",
+    "@fontsource/open-runde": "5.3.0",
+    "@fontsource/silkscreen": "5.2.6",
+    "lenis": "1.3.4",
+    "lucide-react": "0.525.0",
+    "motion": "12.23.12",
+    "ogl": "1.0.11",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.11",
+    "@types/react": "18.3.23",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "4.6.0",
+    "tailwindcss": "4.1.11",
+    "typescript": "5.8.3",
+    "vite": "6.3.5"
+  }
+}

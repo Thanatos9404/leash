@@ -236,6 +236,10 @@ def create_app(leash: Optional[Leash] = None) -> FastAPI:
         """Merchants call this before fulfilling an agent's order. Receipts are single use."""
         return L().verify_receipt(str(payload.get("receipt", "")), payload.get("merchant_id"), payload.get("cart_hash"), consume=bool(payload.get("consume", True)))
 
+    @app.post("/api/receipts/verify")
+    async def inspect(payload: dict = Body(...)):
+        return L().inspect_receipt(str(payload.get("receipt", "")))
+
     @app.get("/.well-known/jwks.json")
     async def jwks():
         return L().jwks()
@@ -247,15 +251,15 @@ def create_app(leash: Optional[Leash] = None) -> FastAPI:
         l = L()
         try:
             await l.on_paypal_return(kind, ref)
-            target = f"/#/app/mandates/{ref}?funded=1" if kind == "allowance" else f"/#/app/purchases/{ref}?approved=1"
+            target = f"/app/mandates/{ref}?funded=1" if kind == "allowance" else f"/app/purchases/{ref}?approved=1"
         except (LeashError, PayPalError) as e:
-            target = f"/#/app?error={quote(str(e)[:160])}"
+            target = f"/app?error={quote(str(e)[:160])}"
         return RedirectResponse(target, status_code=303)
 
     @app.get("/paypal/cancel", include_in_schema=False)
     async def paypal_cancel(kind: str, ref: str, token: str = ""):
         L().log(ref, "human:owner", "paypal.cancelled", "Left PayPal without approving")
-        return RedirectResponse(f"/#/app/{'mandates' if kind == 'allowance' else 'purchases'}/{ref}?cancelled=1", status_code=303)
+        return RedirectResponse(f"/app/{'mandates' if kind == 'allowance' else 'purchases'}/{ref}?cancelled=1", status_code=303)
 
     @app.post("/webhooks/paypal")
     async def webhook(request: Request):
@@ -324,6 +328,8 @@ def create_app(leash: Optional[Leash] = None) -> FastAPI:
         f = (DIST / path).resolve()
         if DIST.exists() and f.is_file() and DIST.resolve() in f.parents:
             return FileResponse(f)
+        if (path == "app" or path.startswith("app/")) and (DIST / "index.html").exists():
+            return FileResponse(DIST / "index.html")  # client-side routes
         raise HTTPException(404)
 
     return app

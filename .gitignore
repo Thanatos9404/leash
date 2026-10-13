@@ -31,3 +31,8 @@ scratch/
 
 # local tool config
 .claude/
+
+# frontend
+node_modules/
+frontend/*.tsbuildinfo
+

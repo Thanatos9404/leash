@@ -78,6 +78,13 @@ def test_model_numbers_must_be_grounded(settings, directory):
     assert any("m_goldreserve_fake" in w for w in report["warnings"])
 
 
+def test_model_cannot_repurpose_a_number(settings, directory):
+    llm = ScriptedLLM(settings, {"compile": {"per_purchase_max": 50, "ask_above": 50, "budget": {"amount": 200, "period": "month"}}})
+    policy, report = run(compile_mandate(SAMPLES["office"], directory, llm))
+    assert policy.per_purchase_max is None and policy.ask_above == Decimal("50")  # "ask me above $50" is not a $50 cap
+    assert any("not added" in w for w in report["warnings"])
+
+
 def test_plain_language_is_deterministic(settings, directory):
     from leash.llm import LLM
 

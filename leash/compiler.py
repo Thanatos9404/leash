@@ -216,11 +216,23 @@ def _merge(rules: dict, reply: dict, text: str, directory: Directory, warnings: 
         except Exception:
             return False
 
+    # Numbers the parser already assigned to a role. The model may fill an empty field, but not by re-using a
+    # number the text gives a different meaning ("ask me above $50" is not a $50 cap).
+    claimed = {Decimal(str(rules[k])): k for k in ("per_purchase_max", "ask_above") if rules.get(k) is not None}
+    if rules.get("budget"):
+        claimed[Decimal(rules["budget"]["amount"])] = "budget"
     for key in ("per_purchase_max", "ask_above"):
         v = reply.get(key)
         if v is None:
             continue
-        if grounded(v) or (key == "ask_above" and Decimal(str(v)) == 0 and rules.get("ask_above") == "0"):
+        try:
+            dv = Decimal(str(v))
+        except Exception:
+            continue
+        if key not in rules and dv in claimed and claimed[dv] != key:
+            warnings.append(f"The model read ${v} as the {key.replace('_', ' ')}, but your text uses ${v} for the {claimed[dv].replace('_', ' ')}; not added.")
+            continue
+        if grounded(v) or (key == "ask_above" and dv == 0 and rules.get("ask_above") == "0"):
             out[key] = str(v)
         elif key in rules:
             warnings.append(f"The model read {key.replace('_', ' ')} as ${v}, which is not in your text; kept ${rules[key]}.")
