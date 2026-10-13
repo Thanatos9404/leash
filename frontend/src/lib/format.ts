@@ -13,6 +13,12 @@ export function ago(ts: string | number): string {
   return new Date(t).toLocaleDateString(undefined, { day: "numeric", month: "short" });
 }
 
+/** 'nebius:Qwen/Qwen3-30B-A3B-Instruct-2507' -> 'Qwen3-30B-A3B' */
+export function modelName(label: string): string {
+  if (!label || label === "rules") return "offline rules";
+  return (label.split("/").pop() ?? label).replace(/^nebius:/, "").replace(/-Instruct.*$/i, "").replace(/-it$/i, "");
+}
+
 export function dateShort(ts: string): string {
   return new Date(ts).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }

@@ -5,7 +5,7 @@ import { Badge, Button } from "../kit";
 import { cn } from "../kit/lib/cn";
 import { EASE } from "../kit/lib/motion";
 import type { Check as RuleCheck, Mandate, Purchase } from "../lib/api";
-import { STATUS_LABEL, money, ruleLabel, tone } from "../lib/format";
+import { STATUS_LABEL, modelName, money, ruleLabel, tone } from "../lib/format";
 import { useLeash } from "./store";
 
 export function StatusBadge({ status }: { status: string }) {
@@ -94,7 +94,7 @@ export function CartLine({ p }: { p: Purchase }) {
 export function AgentSays({ p }: { p: Purchase }) {
   return (
     <figure className="rounded-2xl bg-paper-2 px-4 py-3">
-      <figcaption className="t-eyebrow mb-1 !text-[11px]">Agent's reasoning · {p.agent_ai.replace("nebius:", "")}</figcaption>
+      <figcaption className="t-eyebrow mb-1 !text-[11px]">Agent's reasoning · {modelName(p.agent_ai)}</figcaption>
       <blockquote className="text-[14px] leading-relaxed text-ink-2">“{p.reasoning}”</blockquote>
     </figure>
   );

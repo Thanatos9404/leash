@@ -106,6 +106,7 @@ export const api = {
   exception: (id: string) => call<Purchase>("POST", `/api/purchases/${id}/exception`),
   refund: (id: string, amount: string | null, reason: string) => call<Purchase>("POST", `/api/purchases/${id}/refund`, { amount, reason }),
   simulateDispute: (id: string) => call<Purchase>("POST", `/api/purchases/${id}/dispute/simulate`),
+  syncDisputes: () => call<{ linked: { dispute_id: string; purchase: string; status: string }[] }>("POST", "/api/disputes/sync"),
   respondDispute: (id: string) => call<Purchase>("POST", `/api/purchases/${id}/dispute/respond`),
   inspectReceipt: (receipt: string) => call<ReceiptCheck>("POST", "/api/receipts/verify", { receipt }),
   merchantVerify: (receipt: string, merchant_id?: string) => call<{ valid: boolean; checks: VerificationCheck[] }>("POST", "/v1/verify", { receipt, merchant_id, consume: false }),

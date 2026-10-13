@@ -411,7 +411,7 @@ class Leash:
             return p
 
     async def approve(self, pid: str, by: str = "owner", token: Optional[str] = None) -> Purchase:
-        """Step-up approval: the user signs this exact cart (AP2 calls the equivalent a cart mandate)."""
+        """Step-up approval: the user signs this exact cart (AP2 v0.1 called the equivalent a cart mandate)."""
         p = self.purchase(pid)
         async with self.lock(p.mandate_id):
             p = self.purchase(pid)

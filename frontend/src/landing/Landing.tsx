@@ -67,7 +67,14 @@ export function Landing() {
 
       <section className="section-y">
         <div className="container-x">
-          <ScrollWords text="AI agents can already pay. What they can't do yet is *prove* they were allowed to." />
+          <ScrollWords text="Only 43% of people surveyed trust an AI agent to keep to a spending cap. Leash makes the cap *enforceable*." />
+          <p className="mt-8 text-center text-[12.5px] text-muted">
+            ACI Worldwide / YouGov survey of UK adults, June 2026, as reported by{" "}
+            <a className="underline decoration-[var(--hair-strong)] underline-offset-2 hover:text-ink" href="https://www.digitaltransactions.net/a-survey-shows-a-need-to-bolster-trust-in-agentic-commerce/">
+              Digital Transactions
+            </a>
+            .
+          </p>
         </div>
       </section>
 

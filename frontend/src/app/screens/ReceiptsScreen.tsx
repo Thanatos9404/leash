@@ -170,7 +170,13 @@ function DisputePanel({ p, onChange }: { p: Purchase; onChange: (p: Purchase) =>
               if (r) onChange(r);
             }} />
           ) : (
-            <p className="text-[12.5px] text-muted">In the sandbox, open a dispute as the buyer on sandbox.paypal.com; Leash links it by capture id.</p>
+            <>
+              <p className="text-[12.5px] text-muted">In the sandbox, open a dispute as the buyer on sandbox.paypal.com; Leash links it by capture id.</p>
+              <BusyButton variant="glass" size="sm" label="Check PayPal for disputes" busyLabel="dsync" onClick={async () => {
+                const r = await run("dsync", () => api.syncDisputes());
+                if (r) { toast(r.linked.length ? `Linked ${r.linked.length} dispute(s).` : "No disputes found for your captures."); onChange(await api.purchase(p.id)); }
+              }} />
+            </>
           )}
         </div>
       ) : (

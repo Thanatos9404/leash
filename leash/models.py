@@ -1,8 +1,9 @@
 """Domain models.
 
-Terminology loosely follows Google's Agent Payments Protocol (AP2): an *intent mandate* is the user's signed,
-human-not-present instruction; a *cart approval* is the user's signature over one specific cart (AP2 calls the
-equivalent a cart mandate). Leash does not claim AP2 conformance; the objects are its own.
+The ideas loosely follow Google's Agent Payments Protocol (AP2): a mandate is the user's signed, human-not-present
+instruction (AP2 v0.1's Intent Mandate, an "open" mandate in the current spec) and a cart approval is the user's
+signature over one specific cart (v0.1's Cart Mandate, a "closed" mandate). Leash does not implement AP2; the
+objects are its own.
 """
 
 from __future__ import annotations

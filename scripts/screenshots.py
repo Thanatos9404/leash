@@ -49,7 +49,7 @@ def main() -> None:
         page.goto(BASE)
         page.wait_for_timeout(1500)
         page.evaluate("window.scrollTo(0, 0)")
-        shot(page, "03-landing-full", full=True) if os.getenv("FULL") else None
+        shot(page, "03-landing-full") if os.getenv("FULL") else None
 
         page.goto(f"{BASE}/app/mandates/new")
         wait_text(page, "Write a mandate")
@@ -57,7 +57,7 @@ def main() -> None:
         shot(page, "10-compose")
         page.get_by_role("button", name="Compile the rules").click()
         wait_text(page, "What your agent may do")
-        shot(page, "11-review", full=True)
+        shot(page, "11-review")
         page.get_by_role("button", name="Sign mandate").click()
         wait_text(page, "Approve allowance on PayPal")
         page.get_by_role("button", name="Approve allowance on PayPal").click()
@@ -68,7 +68,7 @@ def main() -> None:
         wait_text(page, "Send the agent shopping")
         page.get_by_role("button", name="Restock my usual 1 kg bag of medium roast whole beans").click()
         wait_text(page, "Open receipt and checks", 120)
-        shot(page, "13-mandate-active", full=True)
+        shot(page, "13-mandate-active")
         page.get_by_role("button", name="A 1 kg bag of Ethiopia Guji from Daily Grind").click()
         wait_text(page, "Review and approve", 120)
 
@@ -85,7 +85,7 @@ def main() -> None:
             if page.get_by_role("button", name="Run attack").count() == 0:
                 break
             page.wait_for_timeout(1000)
-        shot(page, "21-redteam", full=True)
+        shot(page, "21-redteam")
 
         page.goto(f"{BASE}/app")
         page.wait_for_timeout(2500)
@@ -103,7 +103,7 @@ def main() -> None:
             wait_text(page, "Respond with the signed receipt")
             page.get_by_role("button", name="Respond with the signed receipt").click()
             page.wait_for_timeout(2500)
-        shot(page, "24-receipt-detail", full=True)
+        shot(page, "24-receipt-detail")
 
         page.goto(f"{BASE}/app/activity")
         wait_text(page, "Verify the chain")

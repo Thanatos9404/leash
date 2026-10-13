@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Badge, Button, Panel, Segmented } from "../../kit";
 import { cn } from "../../kit/lib/cn";
 import { api, type Mandate, type MandateDetail, type Merchant, type Purchase } from "../../lib/api";
-import { ago, dateShort, money, short } from "../../lib/format";
+import { ago, dateShort, modelName, money, short } from "../../lib/format";
 import { linkTo, navigate, useLocation } from "../../lib/router";
 import { signJws } from "../../lib/signing";
 import { useLeash } from "../store";
@@ -187,7 +187,7 @@ function Rules({ m, reload }: { m: MandateDetail; reload: () => void }) {
   const draft = m.status === "draft";
   return (
     <Panel title="What your agent may do" description={draft ? "Generated from the rules, not by the model. This is exactly what you sign." : "Enforced on every cart by the policy engine"}
-      action={<Badge>{m.compiler.ai === "rules" ? "Parsed offline" : "Drafted by " + m.compiler.ai.replace("nebius:", "").split("/").pop()}</Badge>}>
+      action={<Badge>{m.compiler.ai === "rules" ? "Parsed offline" : "Drafted by " + modelName(m.compiler.ai)}</Badge>}>
       <ul className="space-y-2.5">
         {m.plain_language.map((l) => (
           <li key={l} className="flex gap-2.5 text-[14.5px] leading-snug text-ink">
