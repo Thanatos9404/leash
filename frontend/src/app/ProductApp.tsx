@@ -88,7 +88,10 @@ function Shell() {
             dash.frozen ? (
               <span className="text-accent">Kill switch is on. No agent can spend.</span>
             ) : (
-              `${live} live mandate${live === 1 ? "" : "s"} · ${money(dash.stats.held)} held by PayPal for your agents`
+              <>
+                {live} live mandate{live === 1 ? "" : "s"}
+                <span className="hidden sm:inline"> · {money(dash.stats.held)} held by PayPal for your agents</span>
+              </>
             )
           ) : (
             "Loading your mandates"
@@ -117,9 +120,11 @@ function Shell() {
             >
               <Power />
             </button>
-            <Button size="sm" onClick={() => navigate("/app/mandates/new")} className="hidden sm:inline-flex">
-              New mandate
-            </Button>
+            <div className="hidden sm:block">
+              <Button size="sm" onClick={() => navigate("/app/mandates/new")}>
+                New mandate
+              </Button>
+            </div>
           </>
         }
         footer={<ModeFooter />}

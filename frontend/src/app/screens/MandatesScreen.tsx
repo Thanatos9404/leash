@@ -288,7 +288,7 @@ function RunAgent({ m, reload }: { m: Mandate; reload: () => void }) {
       <form onSubmit={(e) => { e.preventDefault(); if (task.trim()) go(task); }} className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor="task" className="sr-only">Task</label>
         <input id="task" className="field" value={task} onChange={(e) => setTask(e.target.value)} placeholder="What should it buy?" />
-        <BusyButton label="Run agent" busyLabel="agent" onClick={() => task.trim() && go(task)} icon={<ArrowRight size={16} />} />
+        <BusyButton label="Run agent" busyLabel="agent" className="shrink-0 whitespace-nowrap" onClick={() => task.trim() && go(task)} icon={<ArrowRight size={16} />} />
       </form>
       <div className="mt-3 flex flex-wrap gap-2">
         {ideas.map((i) => <button key={i} className="chip-btn" onClick={() => { setTask(i); go(i); }}>{i}</button>)}

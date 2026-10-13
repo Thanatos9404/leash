@@ -160,7 +160,7 @@ export function BusyButton({ label, busyLabel, onClick, variant = "primary", siz
   const { busy } = useLeash();
   const mine = busy === busyLabel;
   return (
-    <Button variant={variant} size={size} onClick={onClick} disabled={disabled || !!busy} className={className}
+    <Button variant={variant} size={size} onClick={onClick} disabled={disabled || !!busy} className={cn("whitespace-nowrap", className)}
       icon={mine ? <Loader2 size={15} className="animate-spin" /> : icon}>
       {label}
     </Button>

@@ -1,0 +1,30 @@
+# Render Blueprint (free plan). Prepared, not deployed. See KEYS_NEEDED.md, "Deploy to Render".
+# The React app is prebuilt into frontend/dist and served by FastAPI, so the Python build is all that runs.
+# Free instances sleep when idle and their disk is ephemeral: demo data resets on restart.
+services:
+  - type: web
+    name: leash
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn leash.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/status
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.5
+      - key: PAYPAL_ENV
+        value: sandbox
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: NEBIUS_API_KEY
+        sync: false
+      - key: CHANNEL3_API_KEY
+        sync: false
+      - key: LEASH_OWNER_NAME
+        value: Judge
+      - key: LEASH_ALLOW_RESET
+        value: "1"

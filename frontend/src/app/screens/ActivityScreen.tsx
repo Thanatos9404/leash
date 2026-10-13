@@ -31,8 +31,10 @@ export function ActivityScreen() {
   const shown = rows.filter((r) => filter === "all" || kindOf(r.actor) === filter).slice().reverse();
   return (
     <div className="grid gap-4 lg:grid-cols-12">
-      <Panel className="lg:col-span-8" title="Audit trail" description="Append-only and hash-chained: each entry carries the SHA-256 of the one before it"
-        action={<Segmented id="act" value={filter} onChange={setFilter} options={[{ value: "all", label: "All" }, { value: "agent", label: "Agent" }, { value: "policy", label: "Policy" }, { value: "paypal", label: "PayPal" }, { value: "you", label: "You" }]} />}>
+      <Panel className="lg:col-span-8" title="Audit trail" description="Append-only and hash-chained: each entry carries the SHA-256 of the one before it">
+        <div className="-mx-1 mb-3 overflow-x-auto px-1 pb-1">
+          <Segmented id="act" value={filter} onChange={setFilter} options={[{ value: "all", label: "All" }, { value: "agent", label: "Agent" }, { value: "policy", label: "Policy" }, { value: "paypal", label: "PayPal" }, { value: "you", label: "You" }]} />
+        </div>
         {shown.length === 0 ? (
           <Empty icon={<Activity />} title="Nothing here yet" body="Compile a mandate to start the trail." />
         ) : (

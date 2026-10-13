@@ -31,7 +31,7 @@ export const INJECTION_CHECKS: Check[] = [
 
 export function HeroProduct() {
   return (
-    <div className="grid text-left md:grid-cols-[200px_1fr]">
+    <div className="grid grid-cols-1 text-left md:grid-cols-[200px_1fr]">
       <aside className="hidden border-r border-hair bg-paper-2/60 p-4 md:block">
         <Wordmark name="LEASH" suffix=".pay" />
         <div className="mt-6 space-y-1">

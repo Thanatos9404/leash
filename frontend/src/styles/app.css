@@ -7,6 +7,13 @@
   --sky-bottom: #f4e6da;
 }
 
+@layer base {
+  /* Grid children may shrink below their content's width, so wide SVGs and tables never push the page sideways. */
+  .grid > * {
+    min-width: 0;
+  }
+}
+
 @layer components {
   .skeleton {
     background: linear-gradient(90deg, var(--paper-2) 0%, var(--paper-3) 50%, var(--paper-2) 100%);

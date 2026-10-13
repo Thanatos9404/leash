@@ -36,3 +36,6 @@ scratch/
 node_modules/
 frontend/*.tsbuildinfo
 
+# the prebuilt frontend is committed so the app runs without Node
+!frontend/dist/
+
