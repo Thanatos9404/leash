@@ -318,11 +318,12 @@ class Leash:
     async def _void_allowance(self, m: Mandate, request_id: str) -> None:
         if not m.envelope.authorization_id or m.envelope.authorization_status not in OPEN_AUTH:
             return
+        released = self.allowance_left(m)  # measured before the void, which drops the open balance to zero
         try:
             res = await self.paypal.void_authorization(m.envelope.authorization_id, request_id)
             m.envelope.authorization_status = res.get("status", "VOIDED") if res else "VOIDED"
             m.envelope.voided_at = now()
-            self.log(m.id, self.processor, "allowance.voided", f"PayPal authorization {m.envelope.authorization_id} voided; ${self.allowance_left(m)} released",
+            self.log(m.id, self.processor, "allowance.voided", f"PayPal authorization {m.envelope.authorization_id} voided; ${released} released",
                      {"authorization_id": m.envelope.authorization_id})
         except PayPalError as e:
             self.log(m.id, self.processor, "allowance.void_failed", "PayPal refused the void", {"error": str(e)})
