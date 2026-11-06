@@ -349,8 +349,8 @@ table{{width:100%;border-collapse:collapse;margin:8px 0 18px}} td{{padding:9px 0
 button{{width:100%;height:50px;border-radius:999px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;font-family:inherit}}
 .go{{background:#1a1615;color:#f9f8f8;border:0}} .no{{background:#fff;border:1px solid rgba(26,22,21,.14);color:#1a1615}}
 button:focus-visible{{outline:2px solid #c9502e;outline-offset:3px}}</style></head><body><div class=card>
-<div class=chip>Fixture mode</div><div class=warn><b>This page simulates PayPal.</b> No sandbox keys are configured, so no PayPal API was
-called and no money moves. With sandbox keys, you approve on sandbox.paypal.com instead.</div>
+<div class=chip>Fixture mode</div><div class=warn><b>This page simulates PayPal.</b> Leash is running in fixture mode, so no PayPal API was
+called and no money moves. In sandbox mode, you approve on sandbox.paypal.com instead.</div>
 <h1>Approve this authorization</h1><p class=m>{description}<br>Order {html.escape(token)}</p>
 <table>{rows}<tr class=t><td>Authorize up to</td><td class=r>${total} USD</td></tr></table>
 <form method=post action="/fixture/paypal/checkoutnow/approve?token={html.escape(token)}"><button class=go>Approve (simulated)</button></form>
